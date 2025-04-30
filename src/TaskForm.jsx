@@ -1,8 +1,7 @@
-// ADDING TASKS
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const TaskForm = () => {
+const TaskForm = ({ onTaskCreated }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -25,6 +24,7 @@ const TaskForm = () => {
       .then(response => {
         console.log('Task created:', response.data);
         // Optionally, update the state of the parent component or reload the tasks
+        onTaskCreated();
       })
       .catch(error => {
         console.error('There was an error creating the task!', error);
