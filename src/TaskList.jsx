@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const TaskList = () => {
+const TaskList = ({ refreshTrigger}) => {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState('all'); // 'all', 'completed', 'incomplete'
   const [editingTask, setEditingTask] = useState(null);
@@ -9,7 +9,7 @@ const TaskList = () => {
     title: '',
     description: '',
     category: '',
-    due_date: '',
+    due_date: '', //check later for kepping curent date selected when editing
     completed: false,
   });
 
@@ -37,7 +37,7 @@ const TaskList = () => {
       title: task.title,
       description: task.description,
       category: task.category,
-      due_date: task.due_date,
+      due_date: task.due_date ? task.due_date.slice(0,10) : '',
       completed: task.completed,
     });
   };
@@ -111,7 +111,7 @@ const TaskList = () => {
                   name="due_date"
                   value={editForm.due_date}
                   onChange={handleEditChange}
-                  required
+                  // required 
                 />
                 <label>
                   Completed:
@@ -130,7 +130,8 @@ const TaskList = () => {
                 <h3>{task.title}</h3>
                 <p>{task.description}</p>
                 <p>Category: {task.category}</p>
-                <p>Due: {task.due_date}</p>
+                <p>Due: {task.due_date ? task.due_date.slice(0,10) : 'No due date'}</p> 
+                {/* slice(0,10) to remove time from date from bthe rails datetime format */}
                 <p>Status: {task.completed ? '✅ Completed' : '❌ Incomplete'}</p>
                 <button onClick={() => startEditing(task)}>Edit</button>
                 <button onClick={() => handleDelete(task.id)}>Delete</button>
