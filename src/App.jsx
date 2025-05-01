@@ -24,7 +24,7 @@ const App = () => {
       <hr/>
 
       <section>
-      <BudgetForm onBudgetCreated={refreshBudget} />
+      <BudgetForm onAdded={refreshBudget} />
       <BudgetList refreshTrigger={budgetRefreshTrigger}/>
       </section>
     </div>
