@@ -1,32 +1,46 @@
-import React, { useState} from 'react';
-import TaskList from './TaskList';
+import React, { useState } from 'react';
 import TaskForm from './TaskForm';
+import TaskList from './TaskList';
 import BudgetForm from './BudgetForm';
 import BudgetList from './BudgetList';
 
 const App = () => {
-  const [refreshTrigger, setRefreshTrigger] = useState(false); //helps to refresh the page aus ewas not loading new tasks automatically
-  const refreshTasks = () => setRefreshTrigger(!refreshTrigger);
+  const [view, setView] = useState('todo'); // 'todo' or 'budget'
 
-   // Budget refresh
-   const [budgetRefreshTrigger, setBudgetRefreshTrigger] = useState(false);
-   const refreshBudget = () => setBudgetRefreshTrigger(prev => !prev);
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
+  const [budgetRefreshTrigger, setBudgetRefreshTrigger] = useState(false);
+
+  const refreshTasks = () => setRefreshTrigger(prev => !prev);
+  const refreshBudget = () => setBudgetRefreshTrigger(prev => !prev);
 
   return (
-    <div>
-      <h1>To-Do & Budget App</h1>
+    <div style={{ padding: '20px' }}>
+      <h1>To-Do & Budget Tracker</h1>
 
-      <section>
-      <TaskForm onTaskCreated={refreshTasks} />
-      <TaskList refreshTrigger={refreshTrigger}/>
-      </section>
+      {/* 🔁 View Toggle */}
+      <div style={{ marginBottom: '20px' }}>
+        <button onClick={() => setView('todo')} disabled={view === 'todo'}>
+          📝 To-Do List
+        </button>
+        <button onClick={() => setView('budget')} disabled={view === 'budget'}>
+          💰 Budget Tracker
+        </button>
+      </div>
 
-      <hr/>
+      {/* 🔀 Conditional Rendering */}
+      {view === 'todo' && (
+        <div>
+          <TaskForm onTaskCreated={refreshTasks} />
+          <TaskList refreshTrigger={refreshTrigger} />
+        </div>
+      )}
 
-      <section>
-      <BudgetForm onAdded={refreshBudget} />
-      <BudgetList refreshTrigger={budgetRefreshTrigger}/>
-      </section>
+      {view === 'budget' && (
+        <div>
+          <BudgetForm onAdded={refreshBudget} />
+          <BudgetList refreshTrigger={budgetRefreshTrigger} />
+        </div>
+      )}
     </div>
   );
 };
