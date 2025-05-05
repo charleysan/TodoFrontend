@@ -63,28 +63,34 @@ const BudgetList = ({ refreshTrigger }) => {
       <h3>Budget List</h3>
       <p><strong>Total:</strong> ${total}</p>
       <ul>
-        {items.map(item => (
-          <li key={item.id}>
-            {editingId === item.id ? (
-              <form onSubmit={handleEditSubmit}>
-                <input type="text" name="title" value={editForm.title} onChange={handleEditChange} required />
-                <input type="number" name="amount" step="0.01" value={editForm.amount} onChange={handleEditChange} required />
-                <input type="text" name="category" value={editForm.category} onChange={handleEditChange} required />
-                <input type="date" name="date" value={editForm.date} onChange={handleEditChange} required />
-                <textarea name="notes" value={editForm.notes} onChange={handleEditChange} />
-                <button type="submit">Save</button>
-                <button type="button" onClick={() => setEditingId(null)}>Cancel</button>
-              </form>
-            ) : (
-              <>
-                <strong>{item.title}</strong> — ${item.amount} ({item.category}) on {item.date?.slice(0, 10)}
-                <p>{item.notes}</p>
-                <button onClick={() => startEditing(item)}>Edit</button>
-                <button onClick={() => handleDelete(item.id)}>Delete</button>
-              </>
-            )}
-          </li>
-        ))}
+        {items.map(item => {
+          const isIncome = parseFloat(item.amount) >= 0;
+          const color = isIncome ? 'green' : 'red';
+          const icon = isIncome ? '🔺' : '🔻';
+
+          return (
+            <li key={item.id} style={{ color }}>
+              {editingId === item.id ? (
+                <form onSubmit={handleEditSubmit}>
+                  <input type="text" name="title" value={editForm.title} onChange={handleEditChange} required />
+                  <input type="number" name="amount" step="0.01" value={editForm.amount} onChange={handleEditChange} required />
+                  <input type="text" name="category" value={editForm.category} onChange={handleEditChange} required />
+                  <input type="date" name="date" value={editForm.date} onChange={handleEditChange} required />
+                  <textarea name="notes" value={editForm.notes} onChange={handleEditChange} />
+                  <button type="submit">Save</button>
+                  <button type="button" onClick={() => setEditingId(null)}>Cancel</button>
+                </form>
+              ) : (
+                <>
+                  <strong>{icon} {item.title}</strong> — ${item.amount} ({item.category}) on {item.date?.slice(0, 10)}
+                  <p>{item.notes}</p>
+                  <button onClick={() => startEditing(item)}>Edit</button>
+                  <button onClick={() => handleDelete(item.id)}>Delete</button>
+                </>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

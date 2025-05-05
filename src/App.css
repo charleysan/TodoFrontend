@@ -1,42 +1,125 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Global styles */
+body {
+  background-color: #F9F9F9; /* Off-White for a clean background */
+  color: #333333; /* Dark Charcoal for prominent text */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Primary and Accent Colors */
+.primary-bg {
+  background-color: #9FE2BF; /* Seafoam Green */
+}
+
+.primary-text {
+  color: #2C6B44; /* Dark Green */
+}
+
+.accent {
+  color: #FF6F61; /* Light Coral */
+}
+
+.secondary-bg {
+  background-color: #F5F5DC; /* Soft Beige for sections */
+}
+
+/* Buttons */
+button {
+  background-color: #9FE2BF; /* Seafoam Green */
+  color: #1A2A6C; /* Muted Navy */
+  padding: 10px 20px;
+  border: 2px solid #2C6B44; /* Dark Green border for buttons */
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #FF6F61; /* Light Coral on hover */
+  border-color: #FF6F61; /* Matching border color */
+}
+
+button:disabled {
+  background-color: #D1E7D1; /* Light Gray for disabled buttons */
+  cursor: not-allowed;
+}
+
+/* Active tab styling */
+button.active {
+  background-color: #FF6F61; /* Light Coral for active state */
+  color: #FFFFFF;
+  border-color: #FF6F61; /* Highlight active tab with matching border */
+}
+
+/* Card & Box Components */
+.card {
+  background-color: #FFFFFF;
+  border: 2px solid #9FE2BF; /* Seafoam Green border */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+/* Section Backgrounds */
+.section {
+  background-color: #F5F5DC; /* Soft Beige */
+  padding: 20px;
+  border: 2px solid #D17A44; /* Warm Brown border */
+  border-radius: 10px;
+}
+
+/* Links */
+a {
+  color: #9FE2BF; /* Seafoam Green */
+  text-decoration: none;
+}
+
+a:hover {
+  color: #FF6F61; /* Light Coral on hover */
+}
+
+/* Form Inputs */
+input[type="text"], input[type="number"], input[type="date"], textarea {
+  padding: 10px;
+  border: 2px solid #D1D1D1; /* Light Gray border */
+  border-radius: 5px;
+  width: 100%;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, textarea:focus {
+  border-color: #9FE2BF; /* Seafoam Green when focused */
+}
+
+/* Backgrounds for different sections */
+.header {
+  background-color: #2C6B44; /* Dark Green */
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid #D17A44; /* Warm Brown bottom border */
+}
+
+.footer {
+  background-color: #F6D02F; /* Warm Yellow footer */
+  color: #333333;
+  padding: 20px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Error/Warning Messages */
+.error {
+  background-color: #FF6F61; /* Light Coral */
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.warning {
+  background-color: #F6D02F; /* Warm Yellow */
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
 }

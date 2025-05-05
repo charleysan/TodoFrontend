@@ -4,6 +4,7 @@ import TaskList from './TaskList';
 import BudgetForm from './BudgetForm';
 import BudgetList from './BudgetList';
 import TimeZoneConverter from './components/TimeZoneConverter';
+import './App.css';
 
 const App = () => {
   const [view, setView] = useState('todo'); // 'todo' or 'budget'
@@ -16,7 +17,7 @@ const App = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>To-Do List | Budget Tracker | TimeZone Converter</h1>
+      <h1>Manage Today</h1>
 
       {/* 🔁 View Toggle */}
       <div style={{ marginBottom: '20px' }}>
@@ -27,7 +28,7 @@ const App = () => {
           💰 Budget Tracker
         </button>
         <button onClick={() => setView('timezone')} disabled={view === 'timezone'}>
-          🌐 Time Zone Converter
+        ⏰ Time Zone Converter
         </button>
       </div>
 
