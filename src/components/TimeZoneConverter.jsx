@@ -1,81 +1,60 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import moment from 'moment-timezone';
+import { momentToRailsTimeZones } from '../utils/timezoneMap'; // ✅ adjust path if needed
 
 const TimeZoneConverter = () => {
-  const [time, setTime] = useState('');
-  const [fromZone, setFromZone] = useState('UTC');
-  const [toZone, setToZone] = useState('UTC');
-  const [result, setResult] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const timeZones = moment.tz.names();
+  const [inputTime, setInputTime] = useState('');
+  const [fromZone, setFromZone] = useState('');
+  const [toZone, setToZone] = useState('');
+  const [convertedTime, setConvertedTime] = useState('');
 
   const handleConvert = async () => {
-    if (!time || !fromZone || !toZone) {
-      setResult("Please fill all fields correctly.");
-      return;
-    }
-
-    setLoading(true);
-    setResult('');
-
+    const railsFromZone = momentToRailsTimeZones[fromZone] || fromZone;
+    const railsToZone = momentToRailsTimeZones[toZone] || toZone;
+  
+    console.log("Sending to API:", { inputTime, railsFromZone, railsToZone });
+  
     try {
-      const res = await axios.get('/api/v1/convert_time', {
+      const response = await axios.get('http://localhost:3000/api/v1/convert_time', {
         params: {
-          time: time,
-          from_zone: fromZone,
-          to_zone: toZone
+          time: inputTime,
+          from_zone: railsFromZone, // Use the mapped time zones here
+          to_zone: railsToZone // Use the mapped time zones here
         }
       });
-      setResult(res.data.converted_time);  // This will display the converted time
-    } catch (err) {
-      setResult(err.response?.data?.error || 'Error converting time.');
-    } finally {
-      setLoading(false);
+      
+      setConvertedTime(response.data.converted_time);
+    } catch (error) {
+      console.error("Error converting time:", error);
+      setConvertedTime("Conversion failed. Please check your input.");
     }
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '600px', margin: 'auto' }}>
+    <div>
       <h2>🕒 Time Zone Converter</h2>
-
-      <div style={{ marginBottom: '1rem' }}>
-        <label>Time (YYYY-MM-DD HH:MM): </label>
-        <input
-          type="text"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-          placeholder="2025-05-02 14:00"
-        />
-      </div>
-
-      <div style={{ marginBottom: '1rem' }}>
-        <label>From Time Zone: </label>
-        <select value={fromZone} onChange={(e) => setFromZone(e.target.value)}>
-          {timeZones.map((zone) => (
-            <option key={zone} value={zone}>{zone}</option>
-          ))}
-        </select>
-      </div>
-
-      <div style={{ marginBottom: '1rem' }}>
-        <label>To Time Zone: </label>
-        <select value={toZone} onChange={(e) => setToZone(e.target.value)}>
-          {timeZones.map((zone) => (
-            <option key={zone} value={zone}>{zone}</option>
-          ))}
-        </select>
-      </div>
-
-      <button onClick={handleConvert} disabled={loading}>
-        {loading ? 'Converting...' : 'Convert'}
-      </button>
-
-      <div style={{ marginTop: '1rem' }}>
-        <h4>Converted Time:</h4>
-        <p>{result}Results</p>
-      </div>
+      <input
+        type="datetime-local"
+        value={inputTime}
+        onChange={(e) => setInputTime(e.target.value)}
+      />
+      <br />
+      <select value={fromZone} onChange={(e) => setFromZone(e.target.value)}>
+        <option value="">Select source zone</option>
+        {Object.keys(momentToRailsTimeZones).map((tz) => (
+          <option key={tz} value={tz}>{tz}</option>
+        ))}
+      </select>
+      <br />
+      <select value={toZone} onChange={(e) => setToZone(e.target.value)}>
+        <option value="">Select target zone</option>
+        {Object.keys(momentToRailsTimeZones).map((tz) => (
+          <option key={tz} value={tz}>{tz}</option>
+        ))}
+      </select>
+      <br />
+      <button onClick={handleConvert}>Convert</button>
+      <p>Converted Time: {convertedTime}</p>
     </div>
   );
 };
