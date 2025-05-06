@@ -5,6 +5,9 @@ import BudgetForm from './BudgetForm';
 import BudgetList from './BudgetList';
 import TimeZoneConverter from './components/TimeZoneConverter';
 import './App.css';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 const App = () => {
   const [view, setView] = useState('todo'); // 'todo' or 'budget'
@@ -17,7 +20,13 @@ const App = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Manage Today</h1>
+      <div>
+      <Navbar />
+      <main style={{ padding: '20px' }}><Outlet /></main>
+      <hr />
+      <footer><p>© {new Date().getFullYear()}</p></footer>
+    </div>
+      <h1>Manage Me Planner</h1>
 
       {/* 🔁 View Toggle */}
       <div style={{ marginBottom: '20px' }}>
@@ -54,5 +63,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;
