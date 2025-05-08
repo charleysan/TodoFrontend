@@ -12,7 +12,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{ background: '#eee', padding: '10px', marginBottom: '20px' }}>
+    <nav style={{ background: '#3cb371', padding: '10px', marginBottom: '20px' }}>
       <ul style={{ listStyle: 'none', display: 'flex', gap: '15px', margin: 0, padding: 0, alignItems: 'center' }}>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>

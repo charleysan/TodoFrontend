@@ -77,8 +77,8 @@ function DashboardPage() {
         <ul>
           {recentBudgets.map(budget => (
             <li key={budget.id}>
-              <strong>{budget.title}</strong>
-              {budget.category}: ${Math.abs(budget.income)} — Spent: ${Math.abs(budget.spent)}
+              <strong>{budget.title}- </strong>
+              Gained: ${Math.abs(budget.income)} — Spent: ${Math.abs(budget.spent)}
             </li>
           ))}
         </ul>

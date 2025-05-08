@@ -8,7 +8,7 @@ function HomePage() {
 
   return (
     <div>
-      <h1>Welcome to ChamorroChips!</h1>
+      <h1>Welcome to MyLife Sync!</h1>
       <p>This is your all-in-one productivity suite: manage tasks, track budgets, and more.</p>
 
       {auth ? (

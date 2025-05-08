@@ -1,6 +1,6 @@
 /* Global styles */
 body {
-  background-color: #F9F9F9; /* Off-White for a clean background */
+  background-color: #E6fffa; /* Off-White for a clean background */
   color: #333333; /* Dark Charcoal for prominent text */
   font-family: Arial, sans-serif;
   margin: 0;
@@ -9,7 +9,7 @@ body {
 
 /* Primary and Accent Colors */
 .primary-bg {
-  background-color: #9FE2BF; /* Seafoam Green */
+  background-color: #38c2b2; /* Seafoam Green */
 }
 
 .primary-text {
@@ -73,12 +73,13 @@ button.active {
 
 /* Links */
 a {
-  color: #008080; /* Turquoise */
+  color: #004d4d; /* Turquoise */
+  font-weight: bold;
   text-decoration: none;
 }
 
 a:hover {
-  color: #FF6F61; /* Light Coral on hover */
+  color: #FF7F50; /* Light Coral on hover */
 }
 
 /* Form Inputs */
@@ -125,7 +126,7 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
 }
 
 .dashboard-section {
-  background-color: #f9f9f9;
+  background-color: #f0f2f5;
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 20px;
