@@ -1,50 +1,49 @@
-// src/components/SignupForm.jsx (Updates Marked)
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:3000';
-
 function SignupForm() {
-  const [formData, setFormData] = useState(/* ... */);
-  const [errors, setErrors] = useState([]); // <<-- ADDED BACK
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: ''
+  });
+
   const navigate = useNavigate();
-  const handleChange = (e) => {/* ... */};
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors([]); // <<-- Clear previous errors
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  }
+  const [error, setError] = useState(null);
 
-    axios.post(`${API_URL}/signup`, formData)
-      .then(response => { /* ... */ })
-      .catch(error => {
-        // <<-- ENHANCED ERROR HANDLING -->>
-        if (error.response && error.response.data && error.response.data.errors) {
-          setErrors(error.response.data.errors); // Use backend errors
-        } else {
-          setErrors(['Signup failed. Please try again.']);
-        }
-        console.error('Signup error:', error.response || error);
-        // No alert needed now, UI shows errors
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post(`http://localhost:3000/api/v1/signup`, formData)
+      .then((response) => {
+        console.log("Signup Successful", response.data);
+        alert("Signup successful! Please login.");
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.error("Signup error", error);
+        setError("Signup failed. Please try again.");
       });
   };
-
+  
   return (
     <div>
       <h2>Sign Up</h2>
-      {/* Display Errors <<-- ADDED BACK -->> */}
-      {errors.length > 0 && (
-        <div style={{ color: 'red', border: '1px solid red', padding: '10px', marginBottom: '15px' }}>
-          <strong>Please fix the following errors:</strong>
-          <ul>
-            {errors.map((error, index) => <li key={index}>{error}</li>)}
-          </ul>
-        </div>
-      )}
       <form onSubmit={handleSubmit}>
-        {/* ... form inputs ... */}
+        <div><label>Name: <input type="text" name="name" value={formData.name} onChange={handleChange} /></label></div>
+        <div><label>Email: <input type="email" name="email" value={formData.email} onChange={handleChange} /></label></div>
+        <div><label>Password: <input type="password" name="password" value={formData.password} onChange={handleChange} /></label></div>
+        <div><label>Password Confirmation: <input type="password" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} /></label></div>
+        <button type="submit">Sign Up</button>
       </form>
+      {error && <div style={{ color: 'red' }}>{error}</div>}  {/* Display error message */}
     </div>
-  );
+  );  
 }
+
 export default SignupForm;

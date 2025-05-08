@@ -1,40 +1,54 @@
-// src/context/AuthContext.jsx (Updates Marked)
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const AuthContext = createContext();
-const API_URL = 'http://localhost:3000';
+const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
-  const [loading, setLoading] = useState(true); // <<-- ADDED BACK
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [loading, setLoading] = useState(true);
 
-  const login = (userData, token) => { /* ...no change */ };
-  const logout = () => { /* ...no change */ };
+  const login = (userData, token) => {
+    localStorage.setItem('token', token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    setToken(token); // new calls the JWT
+    setAuth(userData);
+  };
+  
+  const logout = () => {
+    localStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
+    setAuth(null);
+    setToken(null); // new calls the JWT
+  };
+  
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setLoading(true); // <<-- Ensure loading is true at start
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      axios.get(`${API_URL}/me`)
-        .then(response => setAuth(response.data))
+
+      axios.get(`http://localhost:3000/me`)
+        .then(response => {
+          setAuth(response.data);
+        })
         .catch(() => {
-          console.error("Token validation failed.");
+          console.error("token validation failed");
           logout();
         })
-        .finally(() => setLoading(false)); // <<-- Set loading false when done
+        .finally(() => {
+          setLoading(false);
+        });
     } else {
-      setLoading(false); // <<-- Set loading false if no token
+      setLoading(false);
     }
-  }, []);
+  }, [])
 
-  // Provide 'loading' and render children conditionally
   return (
-    <AuthContext.Provider value={{ auth, loading, login, logout }}> {/* <<-- added loading */}
-      {!loading && children} {/* <<-- Render only when not loading */}
+    <AuthContext.Provider value={{ auth, token, login, logout, loading }}>
+      {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 export default AuthContext;

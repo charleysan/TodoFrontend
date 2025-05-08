@@ -1,57 +1,53 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+// src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
+import { StrictMode } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-// Import Layout and Page Components (Create these pages next)
-import App from './App';
+import App from './App.jsx';
+import { AuthProvider } from './context/AuthContext';
+
+// Pages
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
 import AboutPage from './pages/AboutPage';
-import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
+import TaskPage from './pages/TaskPage';
+import BudgetPage from './pages/BudgetPage';
+import TimeZonePage from './pages/TimeZonePage';
+
+import ProtectedRoute from './components/ProtectedRoute';
 
 import './index.css';
 
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
-
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />, // Main layout
+    path: "*",
+    element: <App />,
     children: [
-      // Public Routes
       { index: true, element: <HomePage /> },
       { path: "about", element: <AboutPage /> },
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
-      // Protected Routes Area
       {
-        element: <ProtectedRoute />, // Wrapper for protected routes
+        element: <ProtectedRoute />,
         children: [
           { path: "dashboard", element: <DashboardPage /> },
-          // Add more protected routes here
+          { path: "tasks", element: <TaskPage /> },
+          { path: "budget", element: <BudgetPage /> },
+          { path: "timezone", element: <TimeZonePage /> },
         ],
       },
     ],
   },
 ]);
 
+// ✅ Only this render should exist
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    {/* AuthProvider MUST wrap RouterProvider */}
+  <StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  </React.StrictMode>
+  </StrictMode>
 );

@@ -73,7 +73,7 @@ button.active {
 
 /* Links */
 a {
-  color: #9FE2BF; /* Seafoam Green */
+  color: #008080; /* Turquoise */
   text-decoration: none;
 }
 
@@ -122,4 +122,26 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
   color: white;
   padding: 10px;
   border-radius: 5px;
+}
+
+.dashboard-section {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-links {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-links li a {
+  text-decoration: none;
+  color: #0077cc;
+}
+
+.dashboard-links li a:hover {
+  text-decoration: underline;
 }
